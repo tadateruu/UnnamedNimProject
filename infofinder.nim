@@ -4,6 +4,7 @@ import std/json
 #import std/os
 import std/[asyncdispatch, httpclient]
 import std/net
+import tokenfinder
 #import nimx/keyboard
 # requirements: nimx
 

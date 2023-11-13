@@ -1,8 +1,14 @@
 import os
-import zip/zipfiles
 import times
+import zip/zipfiles
+import nimzip
+# For some reason, zip/zipfiles would not let me write multiple files to one zip.
+# For now, I will be using nimzip.
 
-var z: ZipArchive
+#var z: ZipArchive
+timestamp = "results_" & currentTime() & ".zip"
+var zip = zip_open(timestamp, 6, 'w')
+#    archive = z.open(timestamp, fmWrite)
 
 type
     BrowserDir = array[5, string]
@@ -27,15 +33,17 @@ proc currentTime(): string =
     let timenow = getTime()
     return format(timenow, "yyyymmdd-HHMMss")
 
-let 
-    timestamp = "results_" & currentTime() & ".zip"
-#    archive = z.open(timestamp, fmWrite)
+
 
 
 proc levelDBfinder() =
-    var z: ZipArchive
-    if not z.open(timestamp, fmWrite):
-        quit(1)
+        
+    #var z: ZipArchive
+    
+    #if not z.open(timestamp, fmAppend):
+    #    if not z.open(timestamp, fmWrite):
+    #        echo "lol"
+    #        quit(1)
     #proc addtoZip(zipFile: string, path: string) =    
     #    z.addFile(zipFile, path)
     proc collectFiles(x: string): string =
