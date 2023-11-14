@@ -10,7 +10,7 @@ git clone https://github.com/tadateruu/nimdiss
 cd nimdiss
 nim compile main.nim
 ```
-Please note that the directories targeted are only found in Windows.
+Please note that the directories targeted are only found in Windows. Because this is for educational purposes only and not for use besides experimentation, `creds.json` isn't hardcoded and is required as an extra file to send results over Matrix.
 
 ## To-do
 - [x] Request IPv4
